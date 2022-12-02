@@ -37,6 +37,8 @@ public class MazeDisplay extends Application {
 	private final int EXTRA_VERTICAL = 100; 	// GUI area allowance when making the scene width
 	private final int EXTRA_HORIZONTAL = 150; 	// GUI area allowance when making the scene width
 	private final int BLOCK_SIZE = 12;     		// size of each cell in pixels
+	private final int NUM_ROWS = 31;
+	private final int NUM_COLS = 41;
 
 	private Scene myScene;						// the container for the GUI
 	private boolean paused = false;		
@@ -62,7 +64,7 @@ public class MazeDisplay extends Application {
 	// Start of JavaFX Application
 	public void start(Stage stage) {
 		
-		mazeController = new MazeController(this);
+		mazeController = new MazeController(NUM_ROWS, NUM_COLS, this);
 		
 		// Initializing the gui
 		myScene = setupScene();
@@ -91,8 +93,8 @@ public class MazeDisplay extends Application {
 		root.setPadding(new Insets(10, 10, 10, 10));
 		root.getChildren().addAll(searches,mazeDrawing,controls);
 
-		Scene scene = new Scene(root, mazeController.getNumCols()*BLOCK_SIZE+ EXTRA_HORIZONTAL, 
-				mazeController.getNumRows()*BLOCK_SIZE + EXTRA_VERTICAL, Color.ANTIQUEWHITE);
+		Scene scene = new Scene(root, NUM_COLS*BLOCK_SIZE+ EXTRA_HORIZONTAL, 
+				NUM_ROWS*BLOCK_SIZE + EXTRA_VERTICAL, Color.ANTIQUEWHITE);
 
 		return scene;
 	}
@@ -103,9 +105,9 @@ public class MazeDisplay extends Application {
 	 */
 	private Group setupMaze(){
 		Group drawing = new Group();
-		mirrorMaze = new Rectangle[mazeController.getNumRows()][mazeController.getNumCols()];
-		for(int i = 0; i< mazeController.getNumRows(); i++){
-			for(int j =0; j < mazeController.getNumCols(); j++){
+		mirrorMaze = new Rectangle[NUM_ROWS][NUM_COLS];
+		for(int i = 0; i< NUM_ROWS; i++){
+			for(int j =0; j < NUM_COLS; j++){
 				Rectangle rect = new Rectangle(j*BLOCK_SIZE, i*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
 				rect.setFill(color[mazeController.getCellState(new Point(i,j))]);
 				mirrorMaze[i][j] = rect;
